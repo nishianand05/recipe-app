@@ -13,7 +13,7 @@ class RecipeApp extends Component {
 		this.state = {
 			recipes: [
 				{
-					id: 1,
+					id: 0,
 					title: "Spaghetti",
 					img: "spaghetti.jpg",
 					ingredients: ["1 lb. spaghetti noodles",
@@ -33,7 +33,7 @@ class RecipeApp extends Component {
 					instructions: "Cook the noodles according to package directions. Set aside. Place the garlic, onion, and oil in a large saucepan or skillet. Saute for 3-4 minutes or until soft and fragrant. Add the ground pork and brown the meat until it’s completely cooked. Add the minced vegetables and hot dog pieces and stir to combine. Add the water and allow the mixture to simmer for 10-15 minutes. Add the tomato sauce and tomato paste to the meat and continue to simmer the mixture for another 10-15 minutes. Add the evaporated milk and salt and stir until incorporated. Combine the noodles and the sauce in a large pot or mixing bowl. Top with grated cheese. At Cherne they grate a processed cheese similar to Velveeta and let it melt into the top layer of the spaghetti."
 				}, 
 				{
-					id: 2,
+					id: 1,
 					title: 'Chocolate Milkshake',
 					img: "chocoMilkshake.jpg",
 					ingredients: [
@@ -47,7 +47,7 @@ class RecipeApp extends Component {
 					instructions: "Place the ice cream, milk, and chocolate syrup into the blender. If using chocolate chips, add those as well. Be mindful that the harder the ice cream is, the better, as the blending process can liquefy the ice cream too much and make the milkshake too thin. Blend the ingredients until completely smooth. Pour into your glasses immediately, top with whipped cream, and decorate with shaved chocolate. Enjoy!"
 				},
 				{
-					id: 3,
+					id: 2,
 					title: "Chocolate Mousse",
 					img: "chocoMousse.jpg",
 					ingredients: [
@@ -61,7 +61,7 @@ class RecipeApp extends Component {
 					instructions: "Whip egg yolks and sugar: In medium mixing bowl using an electric hand mixer whip together egg yolks and granulated sugar on high speed until pale and fluffy, about 2 minutes. Heat 3/4 cup cream: Warm 3/4 cup of the heavy cream in a 2-quart saucepan on the stovetop over low heat until hot. Temper eggs with cream mixture: While whisking egg mixture slowly pour in warm cream mixture to temper egg yolks. Then pour combined egg yolk and cream mixture back into saucepan. Cook mixture to 160 degrees: Cook over low heat, whisking constantly, until mixture thickens just slightly and reaches 160 degrees on an instant read thermometer. If you notice any clumps strain through a sieve and return to saucepan. 5. Melt in chocolate: Off heat add in chocolate, stir until melted. Let cool to room temp: Pour mixture into a clean medium bowl, cover and chill, stirring about every 10 – 15 minutes until it reaches 70 degrees (or no longer warm), about 30 – 40 minutes total. Whip remaining cream, fold into chocolate mixture: Whip remaining heavy cream until very stiff peaks form. Fold whipped cream into chocolate mixture until combined. Divide mixture among dessert cups, chill: Pipe or spoon into dessert cups. Chill 2 hours. Top with sweetened whipped cream if desired and garnish with shaved or grated chocolate."
 				},
 				{
-					id: 4, 
+					id: 3, 
 					title: 'French Fries',
 					img: "frenchFries.jpg",
 					ingredients: [
@@ -73,16 +73,43 @@ class RecipeApp extends Component {
 					instructions: "Peel and rinse the potatoes. Cut each potato lengthwise into 4 or 5 pieces, then cut each piece into sticks. The thinner these are, the crispier they will be. Place the fries in a large bowl. Cover with cold water, then allow them to soak 2 or 3 hours (or you can stick them in the fridge and let them soak overnight). When you're ready to make the fries, drain the water and lay the potatoes on 2 baking sheets lined with paper towels. Blot with paper towels to dry. Heat a few inches of vegetable oil to 300 degrees F in a heavy pot. In 3 or 4 batches, fry the potatoes about 4 to 5 minutes per batch, or until soft. They should not be brown at all at this point-you just want to start the cooking process. Remove each batch and drain them on new, dry paper towels. Once all the potatoes have been fried at 300 degrees F, turn up the heat until the oil temperature reaches 400 degrees F. When the oil is hot, start frying the potatoes in batches again, cooking until golden and crisp. Remove from the oil and drain on fresh paper towels. Sprinkle the fries with sea salt and dive in with the ketchup-mayo mixture. "
 				}
 			],
-			nextRecipeId: 4
+			nextRecipeId: 4,
+			showForm: false
 		}
+		
+		this.handleSave = this.handleSave.bind(this);
+		this.onDelete = this.onDelete.bind(this);
+
+	}
+	
+	handleSave(recipe){
+	this.setState((prevState, props)=>{
+		const newRecipe = {...recipe, id: this.state.nextRecipeId};
+		return{
+			nextRecipeId: prevState.nextRecipeId + 1,
+			recipes: [...this.state.recipes, newRecipe],
+			showForm: false
+		}
+	})
+	}
+	
+	onDelete(id){
+		const recipes = this.state.recipes.filter(r => r.id !== id);
+		this.setState({recipes});
 	}
 	
 	render(){
+		const {showForm} = this.state;
+		
 	  return (
 		<div className="RecipeApp">
-			  <Navbar/>
-			  <RecipeInput/>
-			  <RecipeList recipes={this.state.recipes} />
+			  <Navbar onNewRecipe={()=> this.setState({showForm: true})}/>
+			  { showForm ? 
+				  <RecipeInput 
+					  onClose={() => this.setState({showForm: false})} 
+					  onSave={this.handleSave} /> 
+				  : null }
+			  <RecipeList recipes={this.state.recipes} onDelete={this.onDelete}/>
 		</div>
 	  );
 	}

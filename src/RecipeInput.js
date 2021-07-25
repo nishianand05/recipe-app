@@ -4,7 +4,8 @@ import './RecipeInput.css';
 class RecipeInput extends Component {
 	
 	static defaultProps = {
-		onClose(){}
+		onClose(){},
+		onSave(){}
 	}
 	
 	constructor(props){
@@ -18,12 +19,10 @@ class RecipeInput extends Component {
 		
 		this.handleChange = this.handleChange.bind(this);
 		this.handleNewIngredient = this.handleNewIngredient.bind(this);		
-		this.handleChangeIng = this.handleChangeIng.bind(this);
-
+		this.handleChangeIng = this.handleChangeIng.bind(this);		this.handleSubmit = this.handleSubmit.bind(this);
 
 	}
 	
-
 	handleChange(e){
 		this.setState({[e.target.name]: e.target.value});
 	}
@@ -39,6 +38,17 @@ class RecipeInput extends Component {
 			i === index ? e.target.value: ing 
 		));
 		this.setState({ingredients});
+	}
+
+	handleSubmit(e){
+		e.preventDefault();
+		this.props.onSave({...this.state});
+		this.setState({
+			title: '',
+			instructions: '',
+			ingredients: [''],
+			img: ''
+		});
 	}
 
 	render() {
@@ -63,7 +73,7 @@ class RecipeInput extends Component {
 		
 		return(
 			<div className="recipe-form-container">
-				<form className="recipe-form" onSubmit={() => {}}>
+				<form className="recipe-form" onSubmit={this.handleSubmit}>
 					<button
 						type="button"
 						className="close-button"
