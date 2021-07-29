@@ -15,9 +15,11 @@ class Recipe extends Component {
 
 	render(){
 		const {title, img, instructions, id, onDelete} = this.props;
+		
 		const ingredients = this.props.ingredients.map((ing,index)=>(
 			<li key={index}>{ing}</li>
 		));
+		
 		return (
 			<div className="recipe-card">
 				<div className="recipe-card-img">

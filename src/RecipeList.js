@@ -11,17 +11,18 @@ class RecipeList extends Component {
 	}
 
 	render(){
-		
 		const {onDelete} = this.props;
+		
+		// Recipes with key, rest of the details and onDelete function as props
 		const recipes = this.props.recipes.map((r, index) => (
-		<Recipe key={r.id} {...r} onDelete={onDelete}/>
+			<Recipe key={r.id} {...r} onDelete={onDelete}/>
 		));
 		
 		return (
 			<div className="recipe-list">
 				{recipes}
 			</div>
-		)
+		);
 	}
 }
 

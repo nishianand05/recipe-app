@@ -3,12 +3,12 @@ import "./Navbar.css";
 import PropTypes from 'prop-types';
 
 class Navbar extends Component {
-	static defaultProps = {
-		onNewRecipe(){}
-	}
+	// static defaultProps = {
+	// 	onNewRecipe(){}
+	// }
 
 	static propTypes = {
-		onNewRecipe: PropTypes.func
+		onNewRecipe: PropTypes.func.isRequired
 	}
 
 	render(){
@@ -17,9 +17,9 @@ class Navbar extends Component {
 				<h2><a href='.'>Recipe App</a></h2>
 				<nav>
 					<li><a href onClick={this.props.onNewRecipe}>New Recipe</a></li>
-					<li><a href>Home</a></li>
+					{/* <li><a href>Home</a></li>
 					<li><a href>About</a></li>
-					<li><a href>Contact Us</a></li>
+					<li><a href>Contact Us</a></li> */}
 				</nav>
 			</header>
 

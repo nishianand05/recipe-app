@@ -6,10 +6,10 @@ import RecipeList from "./RecipeList";
 import RecipeInput from "./RecipeInput";
 
 
-
 class RecipeApp extends Component {
 	constructor(props){
 		super(props);
+		
 		this.state = {
 			recipes: [
 				{
@@ -17,19 +17,19 @@ class RecipeApp extends Component {
 					title: "Spaghetti",
 					img: "spaghetti.jpg",
 					ingredients: ["1 lb. spaghetti noodles",
-							  "1 lb. Italian tomato sauce",
-							  "8 ounces tomato paste",
-							  "2 tablespoons minced onion",
-							  "2 tablespoons minced garlic",
-							  "2 tablespoons oil",
-							  "1 lb. ground pork",
-							  "½ cup minced carrots and red peppers",
-							  "2 cups diced or thinly sliced hot dogs",
-							  "1 cup water",
-							  "1 tablespoon salt",
-							  "1 teaspoon seasoning mix",
-							  "7 ounces evaporated milk",
-							  "grated cheese for topping"],
+								  "1 lb. Italian tomato sauce",
+								  "8 ounces tomato paste",
+								  "2 tablespoons minced onion",
+								  "2 tablespoons minced garlic",
+								  "2 tablespoons oil",
+								  "1 lb. ground pork",
+								  "½ cup minced carrots and red peppers",
+								  "2 cups diced or thinly sliced hot dogs",
+								  "1 cup water",
+								  "1 tablespoon salt",
+								  "1 teaspoon seasoning mix",
+								  "7 ounces evaporated milk",
+								  "grated cheese for topping"],
 					instructions: "Cook the noodles according to package directions. Set aside. Place the garlic, onion, and oil in a large saucepan or skillet. Saute for 3-4 minutes or until soft and fragrant. Add the ground pork and brown the meat until it’s completely cooked. Add the minced vegetables and hot dog pieces and stir to combine. Add the water and allow the mixture to simmer for 10-15 minutes. Add the tomato sauce and tomato paste to the meat and continue to simmer the mixture for another 10-15 minutes. Add the evaporated milk and salt and stir until incorporated. Combine the noodles and the sauce in a large pot or mixing bowl. Top with grated cheese. At Cherne they grate a processed cheese similar to Velveeta and let it melt into the top layer of the spaghetti."
 				}, 
 				{
@@ -77,41 +77,54 @@ class RecipeApp extends Component {
 			showForm: false
 		}
 		
+		// this refers to RecipeApp
+		
 		this.handleSave = this.handleSave.bind(this);
 		this.onDelete = this.onDelete.bind(this);
-
 	}
 	
 	handleSave(recipe){
-	this.setState((prevState, props)=>{
-		const newRecipe = {...recipe, id: this.state.nextRecipeId};
-		return{
-			nextRecipeId: prevState.nextRecipeId + 1,
-			recipes: [...this.state.recipes, newRecipe],
-			showForm: false
-		}
-	})
+		this.setState((prevState, props)=>{
+			
+			// Deconstructing new recipe obj and adding id 		
+			const newRecipe = {...recipe, id: this.state.nextRecipeId};
+
+			return {
+				// Inc nextRecipeId. Add new recipe to recipes array. Set showForm to false.
+				nextRecipeId: prevState.nextRecipeId + 1,
+				recipes: [...this.state.recipes, newRecipe],
+				showForm: false
+			}
+		});
 	}
 	
 	onDelete(id){
+		// Get recipes which do not match id and setState
 		const recipes = this.state.recipes.filter(r => r.id !== id);
 		this.setState({recipes});
 	}
 	
 	render(){
+		
 		const {showForm} = this.state;
 		
-	  return (
-		<div className="RecipeApp">
-			  <Navbar onNewRecipe={()=> this.setState({showForm: true})}/>
-			  { showForm ? 
-				  <RecipeInput 
-					  onClose={() => this.setState({showForm: false})} 
-					  onSave={this.handleSave} /> 
-				  : null }
-			  <RecipeList recipes={this.state.recipes} onDelete={this.onDelete}/>
-		</div>
-	  );
+		// Send onNewRecipe as prop - Sets showForm to true
+		// If showForm is true - 
+		// render RecipeInput with onClose (Sets showForm to false) and onSave (Calls handleSave function) props.
+		// Render RecipeList with recipes and onDelete as props
+
+		return (
+			<div className="RecipeApp">
+				
+				<Navbar onNewRecipe={()=> this.setState({showForm: true})}/>
+				
+				{ showForm ? <RecipeInput 
+								 onClose={() => this.setState({showForm: false})} 
+								 onSave={this.handleSave} /> : null }
+				
+				<RecipeList recipes={this.state.recipes} onDelete={this.onDelete}/>
+			</div>
+		  );
 	}
 }
 
