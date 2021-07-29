@@ -2,7 +2,7 @@
 	position: fixed;
 	top: 50%;
 	transform: translateY(-50%);
-	box-shadow: 0 0 0 2000px rgba(0,0,0,0.8);
+	box-shadow: 0 0 0 20000px rgba(0,0,0,0.8);
 	
 	display: flex;
 	flex-direction: column;
